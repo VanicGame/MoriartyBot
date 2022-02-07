@@ -19,12 +19,23 @@ RP можно начать сегодня.
 Приятного Дня/Вечера дорогой Сеньор.}**
 """
 
+no_text = """**, извините, но заявка не одобрена. Ваш персонаж...**
+"""
+
 def yes_emb(titl, desc):
     embed = discord.Embed(
         title = titl,
         description = desc,
         colour = 0x71C947)
     embed.set_image(url = 'https://share-cdn.picrew.me/shareImg/org/202201/147002_Cb3EqsjR.png')
+    return embed
+
+def no_emb(titl, desc):
+    embed = discord.Embed(
+        title = titl,
+        description = desc,
+        colour = 0x8B0000)
+    embed.set_thumbnail(url = 'https://c.tenor.com/dn5DhW18gB4AAAAi/throw-away-anime.gif')
     return embed
 
 intents = discord.Intents.all()
@@ -44,6 +55,14 @@ async def yes(ctx, member: discord.Member):
         embed = yes_emb("Проверили", member.mention + yes_text)
     await member.add_roles(member.guild.get_role(919276951255019521))
     await ctx.send(embed = embed)
+
+@client.command()
+async def no(ctx, member: discord.Member):
+    if member is not None:
+        embed = no_emb("Проверили", member.mention + no_text)
+    await ctx.send(embed = embed)
+
+
 
 keep_alive()
 TOKEN = os.getenv('MorTok')
